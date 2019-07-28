@@ -1,0 +1,72 @@
+{
+    "name": "nigelgreenway/reactive-slim",
+    "description": "A bridge to use SlimPHP within ReactPHP",
+    "type": "library",
+    "keywords": [
+        "reactphp",
+        "slimphp",
+        "event loop",
+        "php",
+        "php7",
+        "php webserver",
+        "slim bridge",
+        "reactphp slim bridge",
+        "slimphp bridge",
+        "reactphp server",
+        "php server"
+    ],
+    "require": {
+        "php": "^7.0",
+        "react/http": "^0.6",
+        "slim/slim": "^3.8.0",
+        "zendframework/zend-diactoros": "^1.4"
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^6.2",
+        "phpspec/phpspec": "^3.4",
+        "phpunit/phpunit": "^6.1",
+        "sebastianfeldmann/captainhook": "^2.0",
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "authors": [
+        {
+            "name": "Nigel Greenway",
+            "email": "github@futurepixels.co.uk",
+            "homepage": "http://futurepixels.co.uk",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "ReactiveSlim\\": "src/"
+        },
+        "psr-0": {
+            "": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ReactiveSlim\\Test\\": "test"
+        }
+    },
+    "config": {
+        "bin-dir": "./bin",
+        "sort-packages": true
+    },
+    "scripts": {
+        "build": "docker build -t reactive-slim -f Dockerfile .",
+        "start": "docker run -v `pwd`:/var/app -d -p 1337:1337 --name reactive_slim reactive-slim",
+        "watch": "./.tools/docker-watch",
+        "restart": "docker restart -t 0 reactive_slim",
+        "stop": "docker stop -t 0 reactive_slim",
+        "test": "sh ./.tools/test-docker",
+        "check-style": "phpcs -p --standard=psr2-override.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src",
+        "fix-style": "phpcbf -p --standard=psr2-override.xml --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src",
+        "clean": "rm -r ./{vendor,bin} && docker stop -t 0 reactive_slim && docker rm reactive_slim",
+        "post-install-cmd": [
+            "captainhook install",
+            "composer build"
+        ]
+    }
+}
