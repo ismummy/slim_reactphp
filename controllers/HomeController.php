@@ -25,8 +25,6 @@ class HomeController
     public function home( $request,  $response)
     {
         $this->logger->addInfo("Ticket list");
-        //$mapper = new TicketMapper($this->db);
-        //$tickets = $mapper->getTickets();
 
         $response->getBody()->write('Hi, I am here'. $this->hello++);
         return $response;
